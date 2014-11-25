@@ -26,7 +26,7 @@ namespace StarAlignment
             {
                 if (strandLegal(seq))
                 {
-                    Sequence addingSequence = new Sequence(seq);
+                    Sequence addingSequence = new Sequence(seq, sequences.Count + 1);
                     sequences.Add(addingSequence);
                     listBoxInput.Items.Add(seq);
                 }
