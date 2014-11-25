@@ -18,7 +18,35 @@ namespace StarAlignment
         {
             InitializeComponent();
         }
+        #region Non-GUI related functions
 
+        void addSequenceToList(String[] sequenceSource)
+        {
+            foreach (string seq in sequenceSource)
+            {
+                if (strandLegal(seq))
+                {
+                    Sequence addingSequence = new Sequence(seq);
+                    sequences.Add(addingSequence);
+                }
+            }
+        }
+
+        bool strandLegal(string strand)
+        {
+            foreach (char c in strand)
+            {
+                if (c != 'G' || c != 'A' || c != 'C' || c != 'T')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion
+
+
+        #region GUI related functions
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Stream stream = null;
@@ -31,22 +59,13 @@ namespace StarAlignment
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    if ((stream = openFileDialog1.OpenFile()) != null)
-                    {
-                        using (stream)
-                        {
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: Could not read file from disk.  Original error: " + ex.Message);
-                }
+                string filename = openFileDialog1.FileName;
+                string[] filelines = File.ReadAllLines(filename);
+                addSequencesToList(filelines);
             }
         }
+
+        #endregion
 
     }
 }

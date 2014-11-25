@@ -8,11 +8,12 @@ namespace StarAlignment
 {
     public class Sequence
     {
-        string strand;
+        public string strand;
 
-        Sequence(string strand)
+        public Sequence(string strand)
         {
             this.strand = strand;
         }
+
     }
 }
