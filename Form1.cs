@@ -28,6 +28,7 @@ namespace StarAlignment
                 {
                     Sequence addingSequence = new Sequence(seq);
                     sequences.Add(addingSequence);
+                    listBoxInput.Items.Add(seq);
                 }
             }
         }
@@ -36,7 +37,7 @@ namespace StarAlignment
         {
             foreach (char c in strand)
             {
-                if (c != 'G' || c != 'A' || c != 'C' || c != 'T')
+                if (c != 'G' && c != 'A' && c != 'C' && c != 'T')
                 {
                     return false;
                 }
@@ -61,7 +62,7 @@ namespace StarAlignment
             {
                 string filename = openFileDialog1.FileName;
                 string[] filelines = File.ReadAllLines(filename);
-                addSequencesToList(filelines);
+                addSequenceToList(filelines);
             }
         }
 
