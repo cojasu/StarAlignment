@@ -39,6 +39,7 @@
             this.buttonDoAlignment = new System.Windows.Forms.Button();
             this.listBoxOutput = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelAuthors = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +79,7 @@
             // listBoxInput
             // 
             this.listBoxInput.FormattingEnabled = true;
-            this.listBoxInput.Location = new System.Drawing.Point(13, 98);
+            this.listBoxInput.Location = new System.Drawing.Point(13, 100);
             this.listBoxInput.Name = "listBoxInput";
             this.listBoxInput.Size = new System.Drawing.Size(431, 251);
             this.listBoxInput.TabIndex = 1;
@@ -112,7 +113,7 @@
             // 
             // buttonDoAlignment
             // 
-            this.buttonDoAlignment.Location = new System.Drawing.Point(451, 98);
+            this.buttonDoAlignment.Location = new System.Drawing.Point(450, 100);
             this.buttonDoAlignment.Name = "buttonDoAlignment";
             this.buttonDoAlignment.Size = new System.Drawing.Size(34, 251);
             this.buttonDoAlignment.TabIndex = 5;
@@ -123,9 +124,9 @@
             // listBoxOutput
             // 
             this.listBoxOutput.FormattingEnabled = true;
-            this.listBoxOutput.Location = new System.Drawing.Point(492, 98);
+            this.listBoxOutput.Location = new System.Drawing.Point(490, 100);
             this.listBoxOutput.Name = "listBoxOutput";
-            this.listBoxOutput.Size = new System.Drawing.Size(504, 251);
+            this.listBoxOutput.Size = new System.Drawing.Size(506, 251);
             this.listBoxOutput.TabIndex = 6;
             // 
             // label1
@@ -137,11 +138,21 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Output Sequences";
             // 
+            // labelAuthors
+            // 
+            this.labelAuthors.AutoSize = true;
+            this.labelAuthors.Location = new System.Drawing.Point(650, 426);
+            this.labelAuthors.Name = "labelAuthors";
+            this.labelAuthors.Size = new System.Drawing.Size(346, 13);
+            this.labelAuthors.TabIndex = 8;
+            this.labelAuthors.Text = "Programmed and Designed by: Alex Addy, Nick Thompson, Cory Sutyak";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 448);
+            this.Controls.Add(this.labelAuthors);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxOutput);
             this.Controls.Add(this.buttonDoAlignment);
@@ -152,7 +163,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "STAR Algorithm";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -173,6 +184,7 @@
         private System.Windows.Forms.Button buttonDoAlignment;
         private System.Windows.Forms.ListBox listBoxOutput;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelAuthors;
     }
 }
 

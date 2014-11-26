@@ -31,7 +31,7 @@ namespace StarAlignment
                 {
                     Sequence addingSequence = new Sequence(seq);
                     sequences.Add(addingSequence);
-                    listBoxInput.Items.Add(new Sequence(seq) {strand = seq});
+                    listBoxInput.Items.Add(new Sequence(seq));
                 }
             }
         }
