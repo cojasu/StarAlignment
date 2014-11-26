@@ -15,5 +15,9 @@ namespace StarAlignment
             this.strand = strand;
         }
 
+        public override string ToString()
+        {
+            return strand;
+        }
     }
 }

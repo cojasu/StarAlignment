@@ -118,6 +118,7 @@
             this.buttonDoAlignment.TabIndex = 5;
             this.buttonDoAlignment.Text = ">";
             this.buttonDoAlignment.UseVisualStyleBackColor = true;
+            this.buttonDoAlignment.Click += new System.EventHandler(this.buttonDoAlignment_Click);
             // 
             // listBoxOutput
             // 

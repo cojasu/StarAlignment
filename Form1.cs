@@ -14,9 +14,12 @@ namespace StarAlignment
     public partial class Form1 : Form
     {
         List<Sequence> sequences = new List<Sequence>();
+        List<PairwiseAligner> pairwiseAlignments = new List<PairwiseAligner>();
+
         public Form1()
         {
             InitializeComponent();
+
         }
         #region Non-GUI related functions
 
@@ -28,7 +31,7 @@ namespace StarAlignment
                 {
                     Sequence addingSequence = new Sequence(seq);
                     sequences.Add(addingSequence);
-                    listBoxInput.Items.Add(seq);
+                    listBoxInput.Items.Add(new Sequence(seq) {strand = seq});
                 }
             }
         }
@@ -66,6 +69,10 @@ namespace StarAlignment
         }
 
         #endregion
+
+        private void buttonDoAlignment_Click(object sender, EventArgs e)
+        {
+        }
 
     }
 }
