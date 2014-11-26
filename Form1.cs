@@ -26,7 +26,7 @@ namespace StarAlignment
             {
                 if (strandLegal(seq))
                 {
-                    Sequence addingSequence = new Sequence(seq, sequences.Count + 1);
+                    Sequence addingSequence = new Sequence(seq);
                     sequences.Add(addingSequence);
                     listBoxInput.Items.Add(seq);
                 }
@@ -50,7 +50,6 @@ namespace StarAlignment
         #region GUI related functions
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Stream stream = null;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.InitialDirectory = "c:\\";
