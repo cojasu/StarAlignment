@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarAlignment
 {
-    class PairwiseAligner
+    public class PairwiseAligner
     {
         Sequence seq1;
         Sequence seq2;
@@ -27,7 +27,7 @@ namespace StarAlignment
             scoringMatrix = new int[seq1.strand.Length + 1, seq2.strand.Length + 1];
         }
 
-        void InitializeScoringMatrix()
+        public void InitializeScoringMatrix()
         {
             for (int x = 0; x < seq1.strand.Length; x++)
             {
@@ -35,7 +35,7 @@ namespace StarAlignment
             }
         }
 
-        void printScoringMatrix()
+        public void printScoringMatrix()
         {
             for (int x = 0; x < seq1.strand.Length; x++)
             {
