@@ -16,11 +16,13 @@ namespace StarAlignment
         Sequence seq1;
         Sequence seq2;
 
+        int score;
+ 
         char[] sequence1;
         char[] sequence2;
 
-        Sequence alignedSeq1;
-        Sequence alignedSeq2;
+        public Sequence alignedSeq1 = new Sequence();
+        public Sequence alignedSeq2 = new Sequence();
 
         int match = 1;
         int mismatch = -1;
@@ -36,7 +38,15 @@ namespace StarAlignment
             scoringMatrix = new scoreDirectionPair[seq1.strand.Length + 1, seq2.strand.Length + 1];
         }
 
-        public void InitializeScoringMatrix()
+
+        public void PairwiseAlignerExecute(){
+            InitializeScoringMatrix();
+            calculateMatrix();
+            setAlignedSequences();
+            setScore();
+            printAll();
+        }
+        private void InitializeScoringMatrix()
         {
             for (int x = 0; x <= seq1.strand.Length; x++)
             {
@@ -56,7 +66,7 @@ namespace StarAlignment
             scoringMatrix[0, 0].direction = "U";
         }
 
-        public void calculateMatrix()
+        private void calculateMatrix()
         {
             for (int y = 1; y < sequence2.Length; y++)
             {
@@ -65,11 +75,10 @@ namespace StarAlignment
                     scoringMatrix[x,y] = calculateScoreAndDirection(x, y);
                     
                 }
-                Console.WriteLine("Y: " + y);
             }
         }
 
-        public scoreDirectionPair calculateScoreAndDirection(int x, int y)
+        private scoreDirectionPair calculateScoreAndDirection(int x, int y)
         {
             int left;
             int top;
@@ -120,7 +129,82 @@ namespace StarAlignment
             
         }
 
-        public void printScoringMatrixScore()
+        private void setAlignedSequences()
+        {
+            string direction = "";
+            int x = scoringMatrix.GetLength(0)-1;
+            int y = scoringMatrix.GetLength(1)-1;
+            while (direction != "U")
+            {
+                direction = scoringMatrix[x, y].direction;
+
+                if (direction == "\\")
+                {
+                    alignedSeq1.strand += sequence1[x];
+                    alignedSeq2.strand += sequence2[y];
+                    x = x - 1;
+                    y = y - 1;
+                }
+                else if (direction == "-")
+                {
+                    alignedSeq1.strand += sequence1[x];
+                    alignedSeq2.strand += "_";
+                    x = x - 1;
+                }
+                else if (direction == "|")
+                {
+                    alignedSeq1.strand += "_";
+                    alignedSeq2.strand += sequence2[x];
+                    y = y - 1;
+                }
+            }
+
+            alignedSeq1.strand = Reverse(alignedSeq1.strand);
+            alignedSeq2.strand = Reverse(alignedSeq2.strand);
+        }
+
+        private string Reverse(string text)
+        {
+            if (text == null) return null;
+
+            char[] array = text.ToCharArray();
+            Array.Reverse(array);
+            return new String(array);
+        }
+
+        private void setScore()
+        {
+            char[] tempSeq1 = alignedSeq1.strand.ToCharArray();
+            char[] tempSeq2 = alignedSeq2.strand.ToCharArray();
+            for (int x = 0; x < alignedSeq1.strand.Length; x++)
+            {
+                if (tempSeq1[x] == tempSeq2[x])
+                {
+                    score += 2;
+                }
+                else if (tempSeq1[x] == '_' || tempSeq2[x] == '_')
+                {
+                    score -= 2;
+                }
+                else
+                {
+                    score -= 1;
+                }
+                Console.WriteLine(score);
+            }
+        }
+
+        #region Printing
+
+        private void printAll()
+        {
+            printScoringMatrixScore();
+            printScoringMatrixDirection();
+            printAlignedSequences();
+            printScore();
+        }
+
+        private void printScoringMatrixScore()
         {
 
             for (int x = 0; x <= seq1.strand.Length; x++)
@@ -151,7 +235,7 @@ namespace StarAlignment
             }
         }
 
-        public void printScoringMatrixDirection()
+        private void printScoringMatrixDirection()
         {
             Console.Write(" ");
             for (int x = 0; x <= seq1.strand.Length; x++)
@@ -169,5 +253,18 @@ namespace StarAlignment
                 Console.WriteLine("");
             }
         }
+
+        private void printAlignedSequences()
+        {
+            Console.WriteLine(alignedSeq1.strand);
+            Console.WriteLine(alignedSeq2.strand);
+        }
+
+        private void printScore()
+        {
+            Console.WriteLine("Score for the alignment: " + score);
+        }
+
+        #endregion
     }
 }

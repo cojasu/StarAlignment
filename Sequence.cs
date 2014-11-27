@@ -15,6 +15,10 @@ namespace StarAlignment
             this.strand = strand;
         }
 
+        public Sequence()
+        {
+            this.strand = "";
+        }
         public override string ToString()
         {
             return strand;
