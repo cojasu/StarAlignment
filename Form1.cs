@@ -75,7 +75,8 @@ namespace StarAlignment
             pairwiseAlignments.Add(new PairwiseAligner(sequences[0], sequences[1]));
             pairwiseAlignments[0].InitializeScoringMatrix();
             pairwiseAlignments[0].calculateMatrix();
-            pairwiseAlignments[0].printScoringMatrix();
+            pairwiseAlignments[0].printScoringMatrixScore();
+            pairwiseAlignments[0].printScoringMatrixDirection();
         }
 
     }
