@@ -53,6 +53,7 @@ namespace StarAlignment
                 {
                     if (!(i==j))
                     {
+                        Console.WriteLine("Score: " + tempScore);
                         tempScore += alignmentMatrix[i,j];
                     }
                     
@@ -61,8 +62,10 @@ namespace StarAlignment
                 tempScore = 0;
             }
 
+            tempScore = rowScores[0];
             foreach (int score in rowScores)
             {
+
                 if (score > tempScore)
                 {
                     tempScore = score;
@@ -71,7 +74,6 @@ namespace StarAlignment
             }
 
             optimizedAlignments.Add(pam.getSequenceByNumber(index));
-            Console.WriteLine("OptimizedAlignment added: " + optimizedAlignments.Count + " " + optimizedAlignments[0].strand);
 
         }
 
@@ -81,7 +83,7 @@ namespace StarAlignment
             {
                 if (x != optimizedAlignments[0].number)
                 {
-                    optimizedAlignments.Add(pam.getAlignmentByNumbers(x, optimizedAlignments[0].number).getSequenceTwo());
+                    optimizedAlignments.Add(pam.getAlignmentByNumbers(optimizedAlignments[0].number, x).getSequenceTwo());
                 }
             }
 
