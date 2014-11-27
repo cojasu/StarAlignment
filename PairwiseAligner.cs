@@ -42,14 +42,14 @@ namespace StarAlignment
             {
                 scoreDirectionPair tempsdp;
                 tempsdp.score = x * (-2);
-                tempsdp.direction = "L";
+                tempsdp.direction = "-";
                 scoringMatrix[x, 0] = tempsdp;
             }
             for (int x = 0; x <= seq2.strand.Length; x++)
             {
                 scoreDirectionPair tempsdp;
                 tempsdp.score = x * (-2);
-                tempsdp.direction = "T";
+                tempsdp.direction = "|";
                 scoringMatrix[0, x] = tempsdp;
             }
 
@@ -101,15 +101,15 @@ namespace StarAlignment
 
             if (tempsdp.score == left)
             {
-                tempsdp.direction = "L";
+                tempsdp.direction = "-";
             }
             else if (tempsdp.score == top)
             {
-                tempsdp.direction = "T";
+                tempsdp.direction = "|";
             }
             else if (tempsdp.score == diagonal)
             {
-                tempsdp.direction = "D";
+                tempsdp.direction = "\\";
             }
             else
             {
@@ -153,6 +153,7 @@ namespace StarAlignment
 
         public void printScoringMatrixDirection()
         {
+            Console.Write(" ");
             for (int x = 0; x <= seq1.strand.Length; x++)
             {
                 Console.Write(" " + sequence1[x]);
