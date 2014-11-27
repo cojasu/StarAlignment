@@ -13,8 +13,8 @@ namespace StarAlignment
 {
     public partial class Form1 : Form
     {
+        PairwiseAlignerManager pam;
         List<Sequence> sequences = new List<Sequence>();
-        List<PairwiseAligner> pairwiseAlignments = new List<PairwiseAligner>();
 
         public Form1()
         {
@@ -29,8 +29,6 @@ namespace StarAlignment
             {
                 if (strandLegal(seq))
                 {
-                    Sequence addingSequence = new Sequence(seq);
-                    sequences.Add(addingSequence);
                     listBoxInput.Items.Add(new Sequence(seq));
                 }
             }
@@ -72,8 +70,19 @@ namespace StarAlignment
 
         private void buttonDoAlignment_Click(object sender, EventArgs e)
         {
-            pairwiseAlignments.Add(new PairwiseAligner(sequences[0], sequences[1]));
-            pairwiseAlignments[0].PairwiseAlignerExecute();
+            foreach(Sequence seq in listBoxInput.Items){
+                sequences.Add(seq);
+
+                Console.WriteLine("Adding Strand: " + seq.strand);
+            }
+
+            foreach (Sequence seq in sequences)
+            {
+                Console.WriteLine(seq.strand);
+            }
+            pam = new PairwiseAlignerManager(sequences);
+            pam.PairwiseAlignerManagerExecute();
+            pam.printHighestScorePairwiseAligner();
         }
 
     }

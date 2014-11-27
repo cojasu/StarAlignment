@@ -16,13 +16,13 @@ namespace StarAlignment
         Sequence seq1;
         Sequence seq2;
 
-        int score;
+        public int score;
  
         char[] sequence1;
         char[] sequence2;
 
-        public Sequence alignedSeq1 = new Sequence();
-        public Sequence alignedSeq2 = new Sequence();
+        Sequence alignedSeq1 = new Sequence();
+        Sequence alignedSeq2 = new Sequence();
 
         int match = 1;
         int mismatch = -1;
@@ -196,7 +196,7 @@ namespace StarAlignment
 
         #region Printing
 
-        private void printAll()
+        public void printAll()
         {
             printScoringMatrixScore();
             printScoringMatrixDirection();
