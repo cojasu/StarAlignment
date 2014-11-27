@@ -9,6 +9,7 @@ namespace StarAlignment
     public class Sequence
     {
         public string strand;
+        public int number;
 
         public Sequence(string strand)
         {

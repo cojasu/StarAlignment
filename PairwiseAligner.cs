@@ -29,22 +29,25 @@ namespace StarAlignment
         int gap = -2;
         scoreDirectionPair[,] scoringMatrix;
 
+        public string name;
         public PairwiseAligner(Sequence seq1, Sequence seq2)
         {
             this.seq1 = seq1;
             this.seq2 = seq2;
+            alignedSeq1.number = seq1.number;
+            alignedSeq2.number = seq2.number;
             sequence1 = (" " + seq1.strand).ToCharArray();
             sequence2 = (" " + seq2.strand).ToCharArray();
             scoringMatrix = new scoreDirectionPair[seq1.strand.Length + 1, seq2.strand.Length + 1];
+            name = "S" + seq1.number + "S" + seq2.number;
         }
 
 
-        public void PairwiseAlignerExecute(){
+        public void Execute(){
             InitializeScoringMatrix();
             calculateMatrix();
             setAlignedSequences();
             setScore();
-            printAll();
         }
         private void InitializeScoringMatrix()
         {
@@ -154,13 +157,21 @@ namespace StarAlignment
                 else if (direction == "|")
                 {
                     alignedSeq1.strand += "_";
-                    alignedSeq2.strand += sequence2[x];
+                    alignedSeq2.strand += sequence2[y];
                     y = y - 1;
                 }
             }
 
             alignedSeq1.strand = Reverse(alignedSeq1.strand);
             alignedSeq2.strand = Reverse(alignedSeq2.strand);
+        }
+
+        public Sequence getSequenceOne(){
+            return alignedSeq1;
+        }
+
+        public Sequence getSequenceTwo(){
+            return alignedSeq2;
         }
 
         private string Reverse(string text)
@@ -180,7 +191,7 @@ namespace StarAlignment
             {
                 if (tempSeq1[x] == tempSeq2[x])
                 {
-                    score += 2;
+                    score += 1;
                 }
                 else if (tempSeq1[x] == '_' || tempSeq2[x] == '_')
                 {
@@ -190,7 +201,7 @@ namespace StarAlignment
                 {
                     score -= 1;
                 }
-                Console.WriteLine(score);
+
             }
         }
 

@@ -8,13 +8,117 @@ namespace StarAlignment
 {
     public class STAR
     {
-        List<Sequence> listOfSequences;
+        PairwiseAlignerManager pam;
+        List<Sequence> optimizedAlignments = new List<Sequence>();
+        int[,] alignmentMatrix;
 
-        STAR(List<Sequence> listOfSequences)
+        public STAR(PairwiseAlignerManager pam)
         {
-            this.listOfSequences = listOfSequences;
+            this.pam = pam;
+            alignmentMatrix = new int[pam.numberOfSequences,pam.numberOfSequences];
         }
 
+        public void Execute(){
+            pam.Execute();
+            initializeAlignmentMatrix();
+            addBestSequencetoOptimizedList();
+            constructStar();
+            printStar();
+        }
 
+        private void initializeAlignmentMatrix()
+        {
+            for (int x = 0; x < alignmentMatrix.GetLength(0); x++)
+            {
+                for (int y = 0; y < alignmentMatrix.GetLength(1); y++)
+                {
+                    if (!(x == y))
+                    {
+                        alignmentMatrix[x, y] = pam.getAlignmentByNumbers(x, y).score;
+                    }
+                }
+            }
+        }
+
+        private void addBestSequencetoOptimizedList()
+        {
+            int x = 0;
+            int y = 1;
+            List<int> rowScores = new List<int>();
+            int tempScore = 0;
+            int index = 0;
+            for (int i = 0; i < alignmentMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < alignmentMatrix.GetLength(1); j++)
+                {
+                    if (!(i==j))
+                    {
+                        tempScore += alignmentMatrix[i,j];
+                    }
+                    
+                }
+                rowScores.Add(tempScore);
+                tempScore = 0;
+            }
+
+            foreach (int score in rowScores)
+            {
+                if (score > tempScore)
+                {
+                    tempScore = score;
+                    index = rowScores.IndexOf(score);
+                }
+            }
+
+            optimizedAlignments.Add(pam.getSequenceByNumber(index));
+            Console.WriteLine("OptimizedAlignment added: " + optimizedAlignments.Count + " " + optimizedAlignments[0].strand);
+
+        }
+
+        private void constructStar()
+        {
+            for (int x = 0; x < pam.numberOfSequences; x++)
+            {
+                if (x != optimizedAlignments[0].number)
+                {
+                    optimizedAlignments.Add(pam.getAlignmentByNumbers(x, optimizedAlignments[0].number).getSequenceTwo());
+                }
+            }
+
+            foreach (Sequence seq in optimizedAlignments)
+            {
+                for (int x = optimizedAlignments.IndexOf(seq); x < optimizedAlignments.Count; x++)
+                {
+                    if (seq.strand.Length != optimizedAlignments[x].strand.Length)
+                    {
+                        if (seq.strand.Length > optimizedAlignments[x].strand.Length)
+                        {
+                            int difference = seq.strand.Length - optimizedAlignments[x].strand.Length;
+                            for (int y = difference; y > 0; y--){
+                                optimizedAlignments[x].strand += "_";
+                            }
+                        }
+                        else if (seq.strand.Length < optimizedAlignments[x].strand.Length)
+                        {
+                            int difference = optimizedAlignments[x].strand.Length - seq.strand.Length;
+                            for (int y = difference; y > 0; y--)
+                            {
+                                seq.strand += "_";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void printStar()
+        {
+            Console.WriteLine("Optimized STAR alignment");
+            foreach (Sequence seq in optimizedAlignments)
+            {
+                Console.WriteLine(seq.strand);
+            }
+        }
+        
     }
 }
