@@ -8,6 +8,7 @@ namespace StarAlignment
 {
     public class PairwiseAlignerManager
     {
+        public Dictionary<int, List<PairwiseAligner>> dictOfstrandNumAndMatchingAlignments = new Dictionary<int,List<PairwiseAligner>>();
         List<PairwiseAligner> listOfAlignments = new List<PairwiseAligner>();
         public int numberOfSequences = 0;
         public PairwiseAlignerManager(List<Sequence> sequences)
@@ -15,13 +16,35 @@ namespace StarAlignment
             numberOfSequences = sequences.Count;
             foreach (Sequence seq in sequences)
             {
-                Console.WriteLine(sequences.Count);
+                Console.WriteLine(seq.number + " " + sequences.Count);
                 for (int x = sequences.IndexOf(seq); x < sequences.Count; x++)
                 {
                     if (!(sequences.IndexOf(seq) == x))
                     {
                         listOfAlignments.Add(new PairwiseAligner(seq, sequences[x]));
                     }
+                }
+            }
+
+            foreach(PairwiseAligner alignment in listOfAlignments)
+            {
+                if (dictOfstrandNumAndMatchingAlignments.ContainsKey(alignment.getSequenceOne().number))
+                {
+                    dictOfstrandNumAndMatchingAlignments[alignment.getSequenceOne().number].Add(alignment);
+                }
+                else
+                {
+                    dictOfstrandNumAndMatchingAlignments.Add(alignment.getSequenceOne().number, new List<PairwiseAligner>());
+                    dictOfstrandNumAndMatchingAlignments[alignment.getSequenceOne().number].Add(alignment);
+                }
+                if (dictOfstrandNumAndMatchingAlignments.ContainsKey(alignment.getSequenceTwo().number))
+                {
+                    dictOfstrandNumAndMatchingAlignments[alignment.getSequenceTwo().number].Add(alignment);
+                }
+                else
+                {
+                    dictOfstrandNumAndMatchingAlignments.Add(alignment.getSequenceTwo().number, new List<PairwiseAligner>());
+                    dictOfstrandNumAndMatchingAlignments[alignment.getSequenceTwo().number].Add(alignment);
                 }
             }
         }
@@ -31,6 +54,8 @@ namespace StarAlignment
             {
                 pa.Execute();
             }
+            printHighestScorePairwiseAligner();
+            printDictionary();
         }
 
         public PairwiseAligner getAlignmentByNumbers(int x, int y)
@@ -95,6 +120,35 @@ namespace StarAlignment
             }
 
             return listOfAlignments[index];
+        }
+
+        public PairwiseAligner getFirstOccurenceOfAlignment(int x)
+        {
+            foreach (PairwiseAligner pa in listOfAlignments)
+            {
+                if (pa.getSequenceOne().number == x)
+                {
+                    return pa;
+                }
+
+                if (pa.getSequenceTwo().number == x)
+                {
+                    return pa;
+                }
+            }
+            return null;
+        }
+
+        private void printDictionary()
+        {
+            foreach (KeyValuePair<int, List<PairwiseAligner>> key in dictOfstrandNumAndMatchingAlignments)
+            {
+                Console.WriteLine(key.Key);
+                foreach (PairwiseAligner pair in key.Value)
+                {
+                    Console.WriteLine(pair.getSequenceOne().number + " " + pair.getSequenceOne() + " " + pair.getSequenceTwo().number + " " + pair.getSequenceTwo());
+                }
+            }
         }
     }
 }

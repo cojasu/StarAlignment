@@ -42,7 +42,10 @@ namespace StarAlignment
             name = "S" + seq1.number + "S" + seq2.number;
         }
 
+        public PairwiseAligner()
+        {
 
+        }
         public void Execute(){
             InitializeScoringMatrix();
             calculateMatrix();

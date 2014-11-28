@@ -21,6 +21,7 @@ namespace StarAlignment
         public void Execute(){
             pam.Execute();
             initializeAlignmentMatrix();
+            printAlignmentMatrix();
             addBestSequencetoOptimizedList();
             constructStar();
             printStar();
@@ -40,74 +41,81 @@ namespace StarAlignment
             }
         }
 
+        private void printAlignmentMatrix()
+        {
+            for (int y = 0; y < alignmentMatrix.GetLength(0); y++)
+            {
+                for (int x = 0; x < alignmentMatrix.GetLength(1); x++)
+                {
+                    Console.Write(alignmentMatrix[x, y] + " ");
+                }
+                Console.WriteLine("");
+            }
+        }
         private void addBestSequencetoOptimizedList()
         {
-            int x = 0;
-            int y = 1;
-            List<int> rowScores = new List<int>();
-            int tempScore = 0;
-            int index = 0;
-            for (int i = 0; i < alignmentMatrix.GetLength(0); i++)
+            List<int> scores = new List<int>();
+            int tempscore = 0;
+            for (int y = 0; y < alignmentMatrix.GetLength(0); y++)
             {
-                for (int j = 0; j < alignmentMatrix.GetLength(1); j++)
+                for (int x = 0; x < alignmentMatrix.GetLength(1); x++)
                 {
-                    if (!(i==j))
-                    {
-                        Console.WriteLine("Score: " + tempScore);
-                        tempScore += alignmentMatrix[i,j];
-                    }
-                    
+                    tempscore += alignmentMatrix[x, y];
                 }
-                rowScores.Add(tempScore);
-                tempScore = 0;
+                scores.Add(tempscore);
+                tempscore = 0;
             }
 
-            tempScore = rowScores[0];
-            foreach (int score in rowScores)
-            {
+            int bestIndex = scores.IndexOf(scores.Max());
 
-                if (score > tempScore)
-                {
-                    tempScore = score;
-                    index = rowScores.IndexOf(score);
-                }
+            PairwiseAligner tempPA = pam.getFirstOccurenceOfAlignment(bestIndex);
+            if (bestIndex == tempPA.getSequenceOne().number)
+            {
+                optimizedAlignments.Add(tempPA.getSequenceOne());
+                optimizedAlignments.Add(tempPA.getSequenceTwo());
+            }
+            else
+            {
+                optimizedAlignments.Add(tempPA.getSequenceTwo());
+                optimizedAlignments.Add(tempPA.getSequenceOne());
             }
 
-            optimizedAlignments.Add(pam.getSequenceByNumber(index));
-
+            printStar();
         }
 
         private void constructStar()
         {
-            for (int x = 0; x < pam.numberOfSequences; x++)
+            foreach (KeyValuePair<int, List<PairwiseAligner>> entry in pam.dictOfstrandNumAndMatchingAlignments)
             {
-                if (x != optimizedAlignments[0].number)
+                bool seqNeedsAdded = true;
+                foreach (Sequence seq in optimizedAlignments)
                 {
-                    optimizedAlignments.Add(pam.getAlignmentByNumbers(optimizedAlignments[0].number, x).getSequenceTwo());
-                }
-            }
-
-            foreach (Sequence seq in optimizedAlignments)
-            {
-                for (int x = optimizedAlignments.IndexOf(seq); x < optimizedAlignments.Count; x++)
-                {
-                    if (seq.strand.Length != optimizedAlignments[x].strand.Length)
+                    if (entry.Key == seq.number)
                     {
-                        if (seq.strand.Length > optimizedAlignments[x].strand.Length)
+                        seqNeedsAdded = false;
+                    }
+                }
+                if (seqNeedsAdded)
+                {
+                    PairwiseAligner tempPA = new PairwiseAligner();
+                    foreach (PairwiseAligner pair in entry.Value)
+                    {
+                        if (optimizedAlignments[0].number == pair.getSequenceOne().number)
                         {
-                            int difference = seq.strand.Length - optimizedAlignments[x].strand.Length;
-                            for (int y = difference; y > 0; y--){
-                                optimizedAlignments[x].strand += "_";
-                            }
+                            tempPA = pair;
                         }
-                        else if (seq.strand.Length < optimizedAlignments[x].strand.Length)
+                        else if (optimizedAlignments[0].number == pair.getSequenceTwo().number)
                         {
-                            int difference = optimizedAlignments[x].strand.Length - seq.strand.Length;
-                            for (int y = difference; y > 0; y--)
-                            {
-                                seq.strand += "_";
-                            }
+                            tempPA = pair;
                         }
+                    }
+                    if (optimizedAlignments[0].number == tempPA.getSequenceOne().number)
+                    {
+                        optimizedAlignments.Add(tempPA.getSequenceTwo());
+                    }
+                    else
+                    {
+                        optimizedAlignments.Add(tempPA.getSequenceOne());
                     }
                 }
             }
