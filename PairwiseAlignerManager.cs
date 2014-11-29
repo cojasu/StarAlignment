@@ -16,7 +16,6 @@ namespace StarAlignment
             numberOfSequences = sequences.Count;
             foreach (Sequence seq in sequences)
             {
-                Console.WriteLine(seq.number + " " + sequences.Count);
                 for (int x = sequences.IndexOf(seq); x < sequences.Count; x++)
                 {
                     if (!(sequences.IndexOf(seq) == x))
@@ -54,8 +53,6 @@ namespace StarAlignment
             {
                 pa.Execute();
             }
-            printHighestScorePairwiseAligner();
-            printDictionary();
         }
 
         public PairwiseAligner getAlignmentByNumbers(int x, int y)
@@ -103,9 +100,7 @@ namespace StarAlignment
                 {
                     return pa.getSequenceTwo();
                 }
-                Console.WriteLine("one: " + pa.getSequenceOne().number + " two: " + pa.getSequenceTwo().number);
             }
-            Console.WriteLine("Int X: " + x);
             return null;
         }
         public PairwiseAligner getBestAlignment()

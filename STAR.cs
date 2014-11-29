@@ -9,19 +9,19 @@ namespace StarAlignment
     public class STAR
     {
         PairwiseAlignerManager pam;
-        List<Sequence> optimizedAlignments = new List<Sequence>();
+        public List<Sequence> optimizedAlignments = new List<Sequence>();
         int[,] alignmentMatrix;
 
         public STAR(PairwiseAlignerManager pam)
         {
             this.pam = pam;
-            alignmentMatrix = new int[pam.numberOfSequences,pam.numberOfSequences];
+            alignmentMatrix = new int[pam.numberOfSequences, pam.numberOfSequences];
         }
 
-        public void Execute(){
+        public void Execute()
+        {
             pam.Execute();
             initializeAlignmentMatrix();
-            printAlignmentMatrix();
             addBestSequencetoOptimizedList();
             constructStar();
             printStar();
@@ -79,8 +79,6 @@ namespace StarAlignment
                 optimizedAlignments.Add(tempPA.getSequenceTwo());
                 optimizedAlignments.Add(tempPA.getSequenceOne());
             }
-
-            printStar();
         }
 
         private void constructStar()
@@ -93,30 +91,87 @@ namespace StarAlignment
                     if (entry.Key == seq.number)
                     {
                         seqNeedsAdded = false;
+                        break;
                     }
                 }
                 if (seqNeedsAdded)
                 {
+
                     PairwiseAligner tempPA = new PairwiseAligner();
                     foreach (PairwiseAligner pair in entry.Value)
                     {
-                        if (optimizedAlignments[0].number == pair.getSequenceOne().number)
+                        if (optimizedAlignments[0].number == pair.getSequenceOne().number || optimizedAlignments[0].number == pair.getSequenceTwo().number)
                         {
                             tempPA = pair;
-                        }
-                        else if (optimizedAlignments[0].number == pair.getSequenceTwo().number)
-                        {
-                            tempPA = pair;
+                            break;
                         }
                     }
+
+                    char[] initialMaster;
+
+                    Sequence tempSeq;
+                    Sequence compareSeq;
+                    initialMaster = optimizedAlignments[0].strand.ToCharArray();
                     if (optimizedAlignments[0].number == tempPA.getSequenceOne().number)
                     {
-                        optimizedAlignments.Add(tempPA.getSequenceTwo());
+                        tempSeq = tempPA.getSequenceTwo();
+                        compareSeq = tempPA.getSequenceOne();
+                    }
+                    else if (optimizedAlignments[0].number == tempPA.getSequenceTwo().number)
+                    {
+
+                        tempSeq = tempPA.getSequenceOne();
+                        compareSeq = tempPA.getSequenceTwo();
                     }
                     else
                     {
-                        optimizedAlignments.Add(tempPA.getSequenceOne());
+                        tempSeq = null;
+                        compareSeq = null;
+                        Console.WriteLine("Error");
                     }
+                    string tempString = new string(initialMaster);
+                    int x = 0;
+                    while (compareSeq.strand != tempString)
+                    {
+                        if (tempString == compareSeq.strand)
+                        {
+                            break;
+                        }
+                        if (x >= tempString.Count())
+                        {
+                            foreach (Sequence seq in optimizedAlignments)
+                            {
+                                seq.strand = seq.strand.Insert(x, "_");
+                            }
+                            tempString = optimizedAlignments[0].strand;
+                        }
+                        if (x >= compareSeq.strand.Count())
+                        {
+                            compareSeq.strand = compareSeq.strand.Insert(x, "_");
+                            tempSeq.strand = tempSeq.strand.Insert(x, "_");
+                        }
+                        if (!(tempString.ToCharArray()[x].Equals(compareSeq.strand.ToCharArray()[x])))
+                        {
+                            if (!(tempString.ToCharArray()[x].Equals('_')))
+                            {
+
+                                foreach (Sequence seq in optimizedAlignments)
+                                {
+                                    seq.strand = seq.strand.Insert(x, "_");
+                                }
+                            }
+                            else
+                            {
+                                compareSeq.strand = compareSeq.strand.Insert(x, "_");
+                                tempSeq.strand = tempSeq.strand.Insert(x, "_");
+
+                            }
+                        }
+                        tempString = optimizedAlignments[0].strand;
+
+                        x++;
+                    }
+                    optimizedAlignments.Add(tempSeq);
                 }
             }
         }
@@ -129,6 +184,6 @@ namespace StarAlignment
                 Console.WriteLine(seq.strand);
             }
         }
-        
+
     }
 }

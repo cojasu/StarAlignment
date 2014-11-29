@@ -76,13 +76,13 @@ namespace StarAlignment
                 sequences.Add(seq);
                 num++;
             }
-
-            foreach (Sequence seq in sequences)
-            {
-                Console.WriteLine(seq.strand);
-            }
             star = new STAR(new PairwiseAlignerManager(sequences));
             star.Execute();
+
+            foreach (Sequence seq in star.optimizedAlignments)
+            {
+                listBoxOutput.Items.Add(seq);
+            }
         }
 
         #endregion

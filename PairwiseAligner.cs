@@ -52,6 +52,7 @@ namespace StarAlignment
             setAlignedSequences();
             setScore();
         }
+
         private void InitializeScoringMatrix()
         {
             for (int x = 0; x <= seq1.strand.Length; x++)
