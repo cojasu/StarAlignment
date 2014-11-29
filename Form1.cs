@@ -64,6 +64,7 @@ namespace StarAlignment
                 string[] filelines = File.ReadAllLines(filename);
                 addSequenceToList(filelines);
             }
+            buttonDoAlignment.Enabled = true;
         }
 
 
@@ -112,6 +113,14 @@ namespace StarAlignment
                     sw.Write(data);
                 }
             }
+        }
+
+        private void clearAlignmentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listBoxInput.Items.Clear();
+            listBoxOutput.Items.Clear();
+            buttonDoAlignment.Enabled = false;
+            saveAlignmentToolStripMenuItem.Enabled = false;
         }
 
 

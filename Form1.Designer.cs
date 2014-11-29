@@ -98,6 +98,7 @@
             // 
             // buttonDoAlignment
             // 
+            this.buttonDoAlignment.Enabled = false;
             this.buttonDoAlignment.Location = new System.Drawing.Point(468, 40);
             this.buttonDoAlignment.Name = "buttonDoAlignment";
             this.buttonDoAlignment.Size = new System.Drawing.Size(41, 251);
@@ -138,6 +139,7 @@
             this.clearAlignmentsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.clearAlignmentsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.clearAlignmentsToolStripMenuItem.Text = "&Clear Alignments";
+            this.clearAlignmentsToolStripMenuItem.Click += new System.EventHandler(this.clearAlignmentsToolStripMenuItem_Click);
             // 
             // Form1
             // 
