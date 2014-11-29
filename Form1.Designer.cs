@@ -31,6 +31,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearAlignmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAlignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBoxInput = new System.Windows.Forms.ListBox();
             this.labelInput = new System.Windows.Forms.Label();
@@ -38,7 +39,7 @@
             this.listBoxOutput = new System.Windows.Forms.ListBox();
             this.labelAuthors = new System.Windows.Forms.Label();
             this.labeloutput = new System.Windows.Forms.Label();
-            this.clearAlignmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBoxSort = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +70,14 @@
             this.addToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.addToolStripMenuItem.Text = "&Add Sequences";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            // 
+            // clearAlignmentsToolStripMenuItem
+            // 
+            this.clearAlignmentsToolStripMenuItem.Name = "clearAlignmentsToolStripMenuItem";
+            this.clearAlignmentsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.clearAlignmentsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.clearAlignmentsToolStripMenuItem.Text = "&Clear Alignments";
+            this.clearAlignmentsToolStripMenuItem.Click += new System.EventHandler(this.clearAlignmentsToolStripMenuItem_Click);
             // 
             // saveAlignmentToolStripMenuItem
             // 
@@ -118,7 +127,7 @@
             // labelAuthors
             // 
             this.labelAuthors.AutoSize = true;
-            this.labelAuthors.Location = new System.Drawing.Point(619, 294);
+            this.labelAuthors.Location = new System.Drawing.Point(619, 333);
             this.labelAuthors.Name = "labelAuthors";
             this.labelAuthors.Size = new System.Drawing.Size(346, 13);
             this.labelAuthors.TabIndex = 8;
@@ -133,19 +142,22 @@
             this.labeloutput.TabIndex = 9;
             this.labeloutput.Text = "Output Sequences";
             // 
-            // clearAlignmentsToolStripMenuItem
+            // checkBoxSort
             // 
-            this.clearAlignmentsToolStripMenuItem.Name = "clearAlignmentsToolStripMenuItem";
-            this.clearAlignmentsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.clearAlignmentsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.clearAlignmentsToolStripMenuItem.Text = "&Clear Alignments";
-            this.clearAlignmentsToolStripMenuItem.Click += new System.EventHandler(this.clearAlignmentsToolStripMenuItem_Click);
+            this.checkBoxSort.AutoSize = true;
+            this.checkBoxSort.Location = new System.Drawing.Point(13, 298);
+            this.checkBoxSort.Name = "checkBoxSort";
+            this.checkBoxSort.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxSort.TabIndex = 10;
+            this.checkBoxSort.Text = "Sort Output";
+            this.checkBoxSort.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(976, 310);
+            this.ClientSize = new System.Drawing.Size(976, 355);
+            this.Controls.Add(this.checkBoxSort);
             this.Controls.Add(this.labeloutput);
             this.Controls.Add(this.labelAuthors);
             this.Controls.Add(this.listBoxOutput);
@@ -176,6 +188,7 @@
         private System.Windows.Forms.Label labelAuthors;
         private System.Windows.Forms.ToolStripMenuItem clearAlignmentsToolStripMenuItem;
         private System.Windows.Forms.Label labeloutput;
+        private System.Windows.Forms.CheckBox checkBoxSort;
     }
 }
 

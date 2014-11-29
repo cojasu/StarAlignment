@@ -80,11 +80,16 @@ namespace StarAlignment
             star = new STAR(new PairwiseAlignerManager(sequences));
             star.Execute();
 
+            if (checkBoxSort.Checked == true)
+            {
+                star.optimizedAlignments.Sort((x, y) => x.number.CompareTo(y.number));
+            }
             foreach (Sequence seq in star.optimizedAlignments)
             {
                 listBoxOutput.Items.Add(seq);
             }
             saveAlignmentToolStripMenuItem.Enabled = true;
+            buttonDoAlignment.Enabled = false;
         }
 
         #endregion
