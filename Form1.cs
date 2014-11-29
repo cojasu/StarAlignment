@@ -15,7 +15,7 @@ namespace StarAlignment
     {
         STAR star;
         List<Sequence> sequences = new List<Sequence>();
-
+        internal SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
         public Form1()
         {
             InitializeComponent();
@@ -83,8 +83,37 @@ namespace StarAlignment
             {
                 listBoxOutput.Items.Add(seq);
             }
+            saveAlignmentToolStripMenuItem.Enabled = true;
         }
 
         #endregion
+
+        private void saveAlignmentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string data = "";
+            foreach (Sequence seq in star.optimizedAlignments)
+            {
+                data += seq.strand + "@";         
+            }
+
+            data = data.Replace("@", Environment.NewLine);
+            SaveFileDialog1.CreatePrompt = true;
+            SaveFileDialog1.OverwritePrompt = true;
+            SaveFileDialog1.FileName = "alignedSequences";
+            SaveFileDialog1.DefaultExt = "txt";
+            SaveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            SaveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            DialogResult result = SaveFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(SaveFileDialog1.OpenFile()))
+                {
+                    sw.Write(data);
+                }
+            }
+        }
+
+
     }
 }
